@@ -86,4 +86,8 @@ export class GameMasterAgent {
             }
         }
     }
+
+    stop() {
+        this.sdk.stop();
+    }
 }

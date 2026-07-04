@@ -21,6 +21,10 @@ export async function runSimulation(): Promise<string[]> {
             const player = new PlayerAgent("Player1");
             
             player.onFinish = (success: boolean) => {
+                // Cleanup
+                player.stop();
+                gm.stop();
+                
                 // Restore console.log
                 console.log = originalConsoleLog;
                 resolve(logs);

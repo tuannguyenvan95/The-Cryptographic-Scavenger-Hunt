@@ -94,4 +94,8 @@ export class PlayerAgent {
             if (this.onFinish) this.onFinish(false);
         }
     }
+
+    stop() {
+        this.sdk.stop();
+    }
 }

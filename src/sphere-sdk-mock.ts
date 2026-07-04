@@ -43,13 +43,18 @@ export class SphereWallet {
 export class SphereNostr {
     private identity: SphereIdentity;
     private messageHandlers: ((msg: any) => void)[] = [];
+    private pollTimer: NodeJS.Timeout;
 
     // Global message bus for the mock to allow local processes to communicate
     static mockNetworkBus: { to: string; from: string; content: any }[] = [];
 
     constructor(identity: SphereIdentity) {
         this.identity = identity;
-        setInterval(() => this.pollMessages(), 1000);
+        this.pollTimer = setInterval(() => this.pollMessages(), 10);
+    }
+
+    stop() {
+        clearInterval(this.pollTimer);
     }
 
     async sendDM(toNametag: string, content: any) {
@@ -90,5 +95,9 @@ export class SphereSDK {
 
     async init() {
         console.log(`[SphereSDK] Initialized for ${this.identity.nametag}`);
+    }
+
+    stop() {
+        this.nostr.stop();
     }
 }
